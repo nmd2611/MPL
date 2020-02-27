@@ -16,22 +16,30 @@
 
 section .data
 
-regmsg: db 0x0A,"***** REGISTER CONTENTS *****"
-regmsg_len: equ $-regmsg
-gmsg: db 0x0A,"Contents of GDTR : "
-gmsg_len: equ $-gmsg
-lmsg: db 0x0A,"Contents of LDTR : "
-lmsg_len: equ $-lmsg
-imsg: db 0x0A,"Contents of IDTR : "
-imsg_len: equ $-imsg
-tmsg: db 0x0A,"Contents of TR : "
-tmsg_len: equ $-tmsg
-mmsg: db 0x0A,"Contents of MSW : "
-mmsg_len: equ $-mmsg
-realmsg: db "---- In Real mode. ----"
-realmsg_len: equ $-realmsg
-protmsg: db "---- In Protected Mode. ----"
-protmsg_len: equ $-protmsg
+regmsg db 0x0A,"***** REGISTER CONTENTS *****"
+regmsg_len equ $-regmsg
+
+gmsg db 0x0A,"Contents of GDTR : "
+gmsg_len equ $-gmsg
+
+lmsg db 0x0A,"Contents of LDTR : "
+lmsg_len equ $-lmsg
+
+imsg db 0x0A,"Contents of IDTR : "
+imsg_len equ $-imsg
+
+tmsg db 0x0A,"Contents of TR : "
+tmsg_len equ $-tmsg
+
+mmsg db 0x0A,"Contents of MSW : "
+mmsg_len equ $-mmsg
+
+realmsg db "---- In Real mode. ----"
+realmsg_len equ $-realmsg
+
+protmsg db "---- In Protected Mode. ----"
+protmsg_len equ $-protmsg
+
 cnt2 db 04H
 newline db 0xa
 
@@ -43,8 +51,8 @@ idtr:	resd 1
 	resw 1
 msw:	resd 1
 
-tr:	resw 1
-value :resb 4
+tr resw 1
+value resb 4
 
 section .text
 
