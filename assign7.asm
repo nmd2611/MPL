@@ -1,0 +1,155 @@
+%macro print 2
+	mov rax, 1
+	mov rdi, 1
+	mov rsi, %1
+	mov rdx, %2
+	syscall
+%endmacro
+
+%macro accept 2
+	mov rax, 0
+	mov rdi, 0
+	mov rsi, %1
+	mov rdx, %2
+	syscall
+%endmacro
+
+section .data
+fname db 'sample.txt',0
+
+msg1 db "-----------Bubble Sort----------",0xa
+len1 equ $-msg1
+
+msg2 db "Error in Opening the File",0xa
+len2 equ $-msg2
+
+msg3 db "File Opened Successfully!!",0xa
+len3 equ $-msg3
+
+msg4 db "After Sorting",0xA
+len4 equ $-msg4
+
+
+
+section .bss
+
+count1 resb 8
+count2 resb 8
+buffer resb 200
+fd_in resb 8
+bufferlen resb 8
+buffercpy resb 200
+
+section .text
+
+global _start
+
+_start:
+
+print msg1,len1
+
+; opening a file 
+mov rax,2		;syscall for file opening
+mov rdi,fname
+mov rsi,2
+mov rdx,0777
+syscall
+
+; check if file has been opened or not
+mov [fd_in],rax
+bt rax,63
+jc ERROR
+print msg3,len3
+jmp next1
+
+ERROR:
+print msg2,len2     ; end the program
+jmp EXIT
+
+; read data from the file
+next1:
+mov rax,0		;syscall for reading from a file
+mov rdi,[fd_in]
+mov rsi,buffer
+mov rdx,200
+syscall
+
+; rax now contains the length of the buffer
+; transfer its contents to respective variables
+mov [bufferlen],rax
+mov [count1],rax
+mov [count2],rax
+
+print buffer,[count2]
+
+
+BUBBLE:
+
+mov al,byte[count2]
+mov byte[count1],al
+dec byte[count1]	;total passes=total count - 1
+
+mov rsi,buffer    ;0th byte
+mov rdi,buffer+1  ;1st byte
+
+loopUP:
+	
+
+mov bl,byte[rsi]
+mov cl,byte[rdi]
+
+cmp bl,cl
+ja SWAP
+inc rsi
+inc rdi
+dec byte[count1]
+jnz loopUP
+dec byte[bufferlen]
+jnz BUBBLE
+jmp END
+
+SWAP:
+
+mov byte[rsi],cl
+mov byte[rdi],bl
+inc rsi
+inc rdi
+dec byte[count1]
+jnz looplabel
+dec byte[bufferlen]
+jnz BUBBLE
+jmp END
+
+
+END:
+
+print msg4,len4 
+print buffer,[count2]
+
+; system call for writing messgae into file
+mov rax,1
+mov rdi,[fd_in]
+mov rsi,msg4
+mov rdx,len4
+syscall
+
+; system call for writing the sorted elements into file
+mov rax,1
+mov rdi,[fd_in]
+mov rsi,buffer
+mov rdx,[count2]
+syscall
+
+
+mov rax,3
+mov rdi,[fd_in]
+syscall
+
+
+EXIT:
+	mov rax,60
+	mov rdi,0
+	syscall
+	
+	
+	
