@@ -16,46 +16,45 @@
 
 section .data
 
-        regmsg db 0x0A,"***** REGISTER CONTENTS *****"
-        regmsg_len equ $-regmsg
+regmsg db 0x0A,"***** REGISTER CONTENTS *****"
+regmsg_len equ $-regmsg
 
-        msg1 db 0x0A,"Contents of GDTR : "
-        len1 equ $-msg1
+msg1 db 0x0A,"Contents of GDTR : "
+len1 equ $-msg1
 
-        msg2 db 0x0A,"Contents of LDTR : "
-        len2 equ $-msg2
+msg2 db 0x0A,"Contents of LDTR : "
+len2 equ $-msg2
 
-        msg3 db 0x0A,"Contents of IDTR : "
-        len3 equ $-msg3
+msg3 db 0x0A,"Contents of IDTR : "
+len3 equ $-msg3
 
-        msg4 db 0x0A,"Contents of TR : "
-        len4 equ $-msg4
+msg4 db 0x0A,"Contents of TR : "
+len4 equ $-msg4
 
-        msg5 db 0x0A,"Contents of MSW : "
-        len5 equ $-msg5
+msg5 db 0x0A,"Contents of MSW : "
+len5 equ $-msg5
 
-        realmsg db "---- In Real mode. ----"
-        realmsg_len equ $-realmsg
+realmsg db "---- In Real mode. ----"
+realmsg_len equ $-realmsg
 
-        protmsg db "---- In Protected Mode. ----"
-        protmsg_len equ $-protmsg
+protmsg db "---- In Protected Mode. ----"
+protmsg_len equ $-protmsg
 
-        cnt2 db 04H
-        newline db 0xa
+cnt2 db 04H
+newline db 0xa
 
 section .bss
+g:	resd 1
+	resw 1
+l:	resw 1
+idtr:	resd 1
+	resw 1
+msw:	resd 1
 
-        g:	resd 1
-	        resw 1
-        l:	resw 1
-        idtr:	resd 1
-	        resw 1
-        msw:	resd 1
-
-        tr resw 1
-        value resb 4
-        result resb 10
-        count resb 10
+tr resw 1
+value resb 4
+result resb 10
+count resb 10
 
 section .text
 

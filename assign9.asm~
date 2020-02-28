@@ -21,7 +21,7 @@ section .data
         msg2 db "001", 0xa
         len2 equ $-msg2
         
-        msg3 db "number not zero", 0xa
+        msg3 db "number ot zero", 0xa
         len3 equ $-msg3
         
         msgs db  0xa

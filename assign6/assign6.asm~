@@ -16,46 +16,45 @@
 
 section .data
 
-        regmsg db 0x0A,"***** REGISTER CONTENTS *****"
-        regmsg_len equ $-regmsg
+regmsg db 0x0A,"***** REGISTER CONTENTS *****"
+regmsg_len equ $-regmsg
 
-        msg1 db 0x0A,"Contents of GDTR : "
-        len1 equ $-msg1
+gmsg db 0x0A,"Contents of GDTR : "
+gmsg_len equ $-gmsg
 
-        msg2 db 0x0A,"Contents of LDTR : "
-        len2 equ $-msg2
+lmsg db 0x0A,"Contents of LDTR : "
+lmsg_len equ $-lmsg
 
-        msg3 db 0x0A,"Contents of IDTR : "
-        len3 equ $-msg3
+imsg db 0x0A,"Contents of IDTR : "
+imsg_len equ $-imsg
 
-        msg4 db 0x0A,"Contents of TR : "
-        len4 equ $-msg4
+tmsg db 0x0A,"Contents of TR : "
+tmsg_len equ $-tmsg
 
-        msg5 db 0x0A,"Contents of MSW : "
-        len5 equ $-msg5
+mmsg db 0x0A,"Contents of MSW : "
+mmsg_len equ $-mmsg
 
-        realmsg db "---- In Real mode. ----"
-        realmsg_len equ $-realmsg
+realmsg db "---- In Real mode. ----"
+realmsg_len equ $-realmsg
 
-        protmsg db "---- In Protected Mode. ----"
-        protmsg_len equ $-protmsg
+protmsg db "---- In Protected Mode. ----"
+protmsg_len equ $-protmsg
 
-        cnt2 db 04H
-        newline db 0xa
+cnt2 db 04H
+newline db 0xa
 
 section .bss
+g:	resd 1
+	resw 1
+l:	resw 1
+idtr:	resd 1
+	resw 1
+msw:	resd 1
 
-        g:	resd 1
-	        resw 1
-        l:	resw 1
-        idtr:	resd 1
-	        resw 1
-        msw:	resd 1
-
-        tr resw 1
-        value resb 4
-        result resb 10
-        count resb 10
+tr resw 1
+value resb 4
+result resb 10
+count resb 10
 
 section .text
 
@@ -76,7 +75,7 @@ _start:
         print regmsg,regmsg_len
         
         ;printing register contents
-        print msg1,len1
+        print gmsg,gmsg_len
         SGDT [g]
         mov ax, word[g+4]
         call HtoA
@@ -87,13 +86,13 @@ _start:
 
         ;--- LDTR CONTENTS----t find valid values for all labels after 1001 passes, giving up.
 
-        print msg2,len2
+        print lmsg,lmsg_len
         SLDT [l]
         mov ax,word[l]
         call HtoA
 
         ;--- IDTR Contents -------
-        print msg3,len3
+        print imsg,imsg_len
         SIDT [idtr]
         mov ax, word[idtr+4]
         call HtoA
@@ -106,13 +105,13 @@ _start:
 
 
         ;---- Task Register Contents -0-----
-        print msg4,len4
+        print tmsg,tmsg_len
         mov ax,word[tr]
         call HtoA
 
 
         ;------- Content of MSW ---------
-        print msg5,len5
+        print mmsg,mmsg_len
         mov ax, word[msw+2]
         call HtoA
 
@@ -128,7 +127,6 @@ _start:
         syscall
 
 
-; ------------------ PROCEDURES -------------------------------
 HtoA:
 	;xor rsi,rsi
 	mov byte[result],0000h
