@@ -59,10 +59,12 @@ _start:
         
 NOTZERO:
         print msg3,len3
+        xor rax,rax
+	    mov rax,01h
+	    call FACT 
+	    call HtoA		
+	    print result,16
                 
-        
-        
-        
         jmp EXIT
         
 ZERO:   
@@ -71,5 +73,34 @@ ZERO:
         
 EXIT:
         mov rax, 60
-	mov rdi, 00
-	syscall
+    	mov rdi, 00
+	    syscall
+	
+FACT: 
+	    cmp word[rbx],01h
+	    je retlabel
+	    mul word[rbx]
+	    dec word[rbx]
+	    call FACT
+retlabel:	ret
+
+HtoA:	
+    	mov rsi,result
+    	mov byte[cnt],16
+	
+LOOPUP:
+        rol rax,4
+    	mov bl,al
+    	and bl,0fH
+    	cmp bl,09h
+    	jbe downn
+    	add bl,07h
+downn:  add bl,30h
+    
+    	mov [rsi],bl
+    	inc rsi
+    	dec byte[cnt]
+    	jnz LOOPUP
+    	
+    	ret
+	
