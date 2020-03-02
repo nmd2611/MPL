@@ -26,7 +26,7 @@ len2 equ $-msg2
 msg3 db "File Opened Successfully!!",0xa
 len3 equ $-msg3
 
-msg4 db 0xa,"After Sorting",0xa
+msg4 db 0xa,"After Sorting",0xA
 len4 equ $-msg4
 
 

@@ -26,7 +26,7 @@ len2 equ $-msg2
 msg3 db "File Opened Successfully!!",0xa
 len3 equ $-msg3
 
-msg4 db 0xa,"After Sorting",0xa
+msg4 db "After Sorting",0xA
 len4 equ $-msg4
 
 
@@ -62,12 +62,12 @@ _start:
         print msg3,len3
         jmp next1
 
-ERROR:
+        ERROR:
         print msg2,len2     ; end the program
         jmp EXIT
 
         ; read data from the file
-next1:
+        next1:
         mov rax,0		;syscall for reading from a file
         mov rdi,[fd_in]
         mov rsi,buffer
@@ -92,8 +92,9 @@ BUBBLE:
         mov rsi,buffer    ;0th byte
         mov rdi,buffer+1  ;1st byte
 
-looplabel:
+loopUP:
 	
+
         mov bl,byte[rsi]
         mov cl,byte[rdi]
 
@@ -102,7 +103,7 @@ looplabel:
         inc rsi
         inc rdi
         dec byte[count1]
-        jnz looplabel
+        jnz loopUP
         dec byte[bufferlen]
         jnz BUBBLE
         jmp END
@@ -120,7 +121,8 @@ SWAP:
         jmp END
 
 
-END:
+        END:
+
         print msg4,len4 
         print buffer,[count2]
 
