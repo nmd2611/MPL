@@ -6,7 +6,7 @@ sdmsg: db 10,"CALCULATED STANDARD DEVIATION IS:-"
 sdmsg_len: equ $-sdmsg
 varmsg: db 10,"CALCULATED VARIANCE IS:-"
 varmsg_len: equ $-varmsg
-array: dd 102.56,198.21,100.67,230.78,67.93
+array: dd 10.00,20.00,30.00,40.00,50.00
 arraycnt: dw 05
 dpoint: db '.'
 hdec: dq 100
@@ -97,6 +97,8 @@ mov byte[rdi],dl
 inc rdi
 dec byte[count1]
 jnz back
+
+ret
 
 dispres:
 fimul dword[hdec]
